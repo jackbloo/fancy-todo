@@ -85,6 +85,42 @@ class TodoController {
         })
     }
 
+    static undone(req, res, next) {
+        const {
+            id
+        } = req.decode
+        Todo.find({
+                UserId: id,
+                status: 'Undone'
+            })
+            .then(data => {
+                res.status(200).json({
+                    data
+                })
+            }).catch(err => {
+                res.status(404)
+                next(err)
+            })
+    }
+
+    static done(req, res, next) {
+        const {
+            id
+        } = req.decode
+        Todo.find({
+                UserId: id,
+                status: 'Done'
+            })
+            .then(data => {
+                res.status(200).json({
+                    data
+                })
+            }).catch(err => {
+                res.status(404)
+                next(err)
+            })
+    }
+
 
 }
 
