@@ -1,0 +1,74 @@
+
+<div class="topnav">
+  <a href="#" id="top-right"><i class="fas fa-list"></i> jackbloo</a>
+  <a id="signout" href="#" onclick="signOut();"><i class="fas fa-sign-out-alt"></i></a>
+  <h3 id="left-nav">HackgivGit</h3>
+</div>
+
+<div class="row">
+  <div class="column left">
+    <div class="container">
+        <h2 id="users">Users</h2>
+        <ul id="userr" style="list-style: none;">
+          <div>
+              <li id="star" class="box" >My Starred Repo</li>
+          </div>
+          <div>
+            <li id="jackbloo" class="box" >iqbal</li>
+          </div>
+          <div>
+            <li id="billy" class="box">billy</li>
+          </div>
+          <div>
+            <li id="savero" class="box">savero</li>
+          </div>
+
+    </div>
+  </div>
+  
+  <div class="column mid">
+    <div class="container1">
+        <input id="myInput" type="text" placeholder="search Todo..">
+        <h2 id="repo">Repositories</h2>
+        <ul id="repos-list">
+        </ul>
+    </div>
+    <div class="signIn">
+      <img src="https://og.github.com/mark/github-mark@1200x630.png" style="width: 200px; height: 100px;" alt="">
+      <h1>HacktivGit</h1> 
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+    </div>
+
+    
+  </div>
+  
+  <div class="column right">
+    <div class="container2">
+        <h2>Create Git Repository</h2>
+        <form id="new-repository-form">
+            <input id="name" type="text" placeholder="Repository Name" autocomplete="off" autofocus required>
+            <input type="submit">
+          </form>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+.no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(https://j2n9a3i8.stackpathcdn.com/wp-content/uploads/2014/08/Preloader_11.gif) center no-repeat #fff;
+}
+
+	$(window).load(function() {
+		// Animate loader off screen
+		$(".se-pre-con").fadeOut("slow");;
+	});
