@@ -1,118 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<title>iTodo</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css?family=Muli|Poppins&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-<meta name="google-signin-client_id" content="104085767398-6hck71jsfmqa5303516e1i3ij6u6okhe.apps.googleusercontent.com">
-<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" href="css/index.css">
+  <title>iTodo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Muli|Poppins&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+  <meta name="google-signin-client_id"
+    content="104085767398-6hck71jsfmqa5303516e1i3ij6u6okhe.apps.googleusercontent.com">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+  <link rel="stylesheet" href="css/index.css">
 </head>
-        <body class="text-center">
-              <main role="main" class="inner cover" id="awal">
-                <h1 class="cover-heading"><i class="fas fa-list"></i>  iTodo</h1>
-                <p class="lead">Creating Fun Todo</p>
-                <p class="lead">
-                  <a href="#" class="btn btn-sm btn-secondary " id="homepage">Get Started</a>
-                </p>
-              </main>
-            
-              <footer class="mastfoot mt-auto">
-                <div class="inner">
-                </div>
-              </footer>
+
+<body class="text-center">
+  <main role="main" class="inner cover" id="awal">
+    <h1 class="cover-heading"><i class="fas fa-list"></i> iTodo</h1>
+    <p class="lead">Creating Fun Todo</p>
+    <p> by jackbloo</p>
+    <p class="lead">
+      <a href="#" class="btn btn-sm btn-secondary " id="homepage">Get Started</a>
+    </p>
+  </main>
+
+
+
+  <form class="form-signin">
+    <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    <div class="checkbox mb-3">
+      <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="signIn()">Sign In</button>
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      <p>Doesn't have an account?</p>
+      <button class="btn btn-sm btn-secondary" type="submit" id="signup">Sign Up</button>
+    </div>
+  </form>
+
+  <form class="form-signup">
+    <h1 class="h3 mb-3 font-weight-normal">Sign Up</h1>
+    <label for="regName" class="sr-only">Name</label>
+    <input type="text" id="regName" class="form-control" placeholder="Name" required>
+    <label for="regEmail" class="sr-only">Email address</label>
+    <input type="email" id="regEmail" class="form-control" placeholder="Email address" required>
+    <label for="regPassword" class="sr-only">Password</label>
+    <input type="password" id="regPassword" class="form-control" placeholder="Password" required>
+    <div class="checkbox mb-3">
+      <button class="btn btn-lg btn-primary btn-block" type="submit" id="updata">Sign Up</button>
+      <p>Back to Sign In</p>
+      <button class="btn btn-sm btn-secondary" type="submit" id="backIn" onclick="backToSignIn()">Sign In</button>
+    </div>
+  </form>
+
+  <div id="afterin">
+    <div class="topnav">
+      <a href="#" id="top-right" onclick="profile()"></a>
+      <a id="signout" href="#" onclick="signOut();"><i class="fas fa-sign-out-alt"></i></a>
+      <h3 id="left-nav"><i class="fas fa-list"></i> iTodo</h3>
+    </div>
+
+    <div class="row">
+      <div class="column left">
+        <div class="container">
+          <h2 id="lists">Menu</h2>
+          <ul id="menus" style="list-style: none;">
+            <div>
+              <li id="mylist" class="box" style="cursor: -webkit-grab; cursor: grab;"> My List </li>
+            </div>
+            <div>
+              <li id="donelist" class="box" style="cursor: -webkit-grab; cursor: grab;"> Done List </li>
+            </div>
+            <div>
+              <li id="unlist" class="box" style="cursor: -webkit-grab; cursor: grab;"> Undone List </li>
             </div>
 
-            <form class="form-signin">
-                <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
-                <label for="inputEmail" class="sr-only">Email address</label>
-                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                <div class="checkbox mb-3">
-                <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="signIn()">Sign In</button>
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                    <p>Doesn't have an account?</p>
-                    <button class="btn btn-sm btn-secondary" type="submit" id="signup">Sign Up</button>
-                </div>
-                </form>
+        </div>
+      </div>
 
-               <form class="form-signup" >
-                        <h1 class="h3 mb-3 font-weight-normal">Sign Up</h1>
-                        <label for="regName" class="sr-only">Name</label>
-                        <input type="text" id="regName" class="form-control" placeholder="Name" required>
-                        <label for="regEmail" class="sr-only">Email address</label>
-                        <input type="email" id="regEmail" class="form-control" placeholder="Email address" required>
-                        <label for="regPassword" class="sr-only">Password</label>
-                        <input type="password" id="regPassword" class="form-control" placeholder="Password" required>
-                        <div class="checkbox mb-3">
-                            <button class="btn btn-lg btn-primary btn-block" type="submit" id="updata">Sign Up</button>
-                        </div>
-                        </form>
+      <div class="column mid">
+        <div class="container1">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">Todo</span>
+            </div>
+            <input type="text" class="form-control" id="find" placeholder="Find Todo" aria-label="Username"
+              aria-describedby="basic-addon1">
+          </div>
+          <h2 id="repo">Todo List</h2>
+          <ul id="todos-list">
+          </ul>
+        </div>
+      </div>
 
-                <div id="afterin">
-                <div class="topnav">
-                        <a href="#" id="top-right"></a>
-                        <a id="signout" href="#" onclick="signOut();"><i class="fas fa-sign-out-alt"></i></a>
-                        <a href="#" id="top-right"></a>
-                        <h3 id="left-nav"><i class="fas fa-list"></i> iTodo</h3>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="column left">
-                                <div class="container">
-                                        <h2 id="lists">Menu</h2>
-                                        <ul id="menus" style="list-style: none;">
-                                          <div>
-                                            <li id="mylist" class="box" style="cursor: -webkit-grab; cursor: grab;"> My List </li>
-                                          </div>
-                                
-                                    </div>
-                        </div>
-                        
-                        <div class="column mid">
-                        <div class="container1">
-                                <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                          <span class="input-group-text" id="basic-addon1">Todo</span>
-                                        </div>
-                                        <input type="text" class="form-control" id="find" placeholder="Find Todo" aria-label="Username" aria-describedby="basic-addon1">
-                                      </div>
-                            <h2 id="repo">Todo List</h2>
-                            <ul id="todos-list">
-                            </ul>
-                        </div>
-                        </div>
-                        
-                        <div class="column right">
-                        <div class="container2">
-                            <h2>Create Todo</h2>
-                            <form class="form-createTodo" >
-                                    <label for="regname" class="sr-only">Name</label>
-                                    <input type="text" id="regname" class="form-control" placeholder="Name" required>
-                                    <label for="regdescription" class="sr-only">Description</label>
-                                    <input type="text" id="regdescription" class="form-control" placeholder="Description" >
-                                    <label for="myDate" class="sr-only">Date</label>
-                                    <input type="date" id="myDate" class="form-control">
-                                    <div class="checkbox mb-3">
-                                        <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="create()">Create</button>
-                                    </div>
-                                    </form>
-                        </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="column right">
+        <div class="container2">
+          <h2>Create Todo</h2>
+          <form class="form-createTodo">
+            <label for="regname" class="sr-only">Name</label>
+            <input type="text" id="regname" class="form-control" placeholder="Name" required>
+            <label for="regdescription" class="sr-only">Description</label>
+            <input type="text" id="regdescription" class="form-control" placeholder="Description">
+            <label for="myDate" class="sr-only">Date</label>
+            <input type="date" id="myDate" class="form-control">
+            <div class="checkbox mb-3">
+              <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="create()">Create</button>
+            </div>
+          </form>
+        </div>
+        <div id="myId">
+        </div>
+      </div>
+    </div>
+  </div>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-        <!-- // <label for="" class="sr-only" >Date</label>
-        //                 <input type="date" id="myDate" class="form-control" > -->
-  <script src="js/index.js"></script>
+
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+    <script src="js/index.js"></script>
+
 </body>
+
 </html>

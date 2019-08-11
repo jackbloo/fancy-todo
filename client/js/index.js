@@ -16,6 +16,82 @@ $(document).ready(function () {
             $('#todos-list').empty()
             for (let i = 0; i < response.data.length; i++) {
                 let list = response.data[i]
+                let targetDate = new Date(response.data[i].due_date)
+                let date = String(response.data[i].due_date).substr(0, 10)
+                let status = response.data[i].status
+                let today = new Date()
+                let realStatus;
+                if (status == 'Undone') {
+                    realStatus = '<i class="fas fa-times"></i>'
+                } else {
+                    realStatus = '<i class="fas fa-check"></i>'
+                }
+
+                let checkDate;
+                if (targetDate < today) {
+                    checkDate = `<p class="red"><i class="far fa-calendar-alt"></i> ${date}</p>`
+                } else if (targetDate >= today) {
+                    checkDate = `<p><i class="far fa-calendar-alt"></i> ${date}</p>`
+                }
+
+                let insert = `<div class ="kotak"  style="  border-top: 1px solid #0002;
+                border-bottom: 1px solid  #0002;"> <h5 class="filter">${list.name}</h5> 
+                <p>${list.description}</p>
+                <p onclick="upstatus()" style ="cursor: -webkit-grab; cursor: grab;" data-id="${list._id}" data-status ="${list.status}" class="edited" >Edit ${realStatus}</p> 
+                ${checkDate}
+                <i style ="cursor: -webkit-grab; cursor: grab;" data-id="${list._id}" class="fas fa-trash fa-sm" onclick="del()"></i>
+                </div>`
+                $('#todos-list').prepend(insert);
+            }
+
+        })
+    })
+
+    $('#donelist').click(function () {
+        let token = localStorage.getItem('token')
+        $.ajax({
+            url: 'http://localhost:3000/todo/donelist',
+            method: 'POST',
+            headers: {
+                token
+            }
+        }).done(response => {
+            $('#todos-list').empty()
+            for (let i = 0; i < response.data.length; i++) {
+                let list = response.data[i]
+                let date = String(response.data[i].due_date).substr(0, 10)
+                let status = response.data[i].status
+                let realStatus;
+
+                if (status == 'Undone') {
+                    realStatus = '<i class="fas fa-times"></i>'
+                } else {
+                    realStatus = '<i class="fas fa-check"></i>'
+                }
+                let insert = `<div class ="kotak"  style="  border-top: 1px solid #0002;
+                border-bottom: 1px solid  #0002;"> <h5 class="filter">${list.name}</h5> 
+                <p>${list.description}</p>
+                <p onclick="upstatus()" style ="cursor: -webkit-grab; cursor: grab;" data-id="${list._id}" data-status ="${list.status}" class="edited" >Edit ${realStatus}</p> 
+                <p><i class="far fa-calendar-alt"></i> ${date}</p>
+                <i style ="cursor: -webkit-grab; cursor: grab;" data-id="${list._id}" class="fas fa-trash fa-sm" onclick="del()"></i>
+                </div>`
+                $('#todos-list').prepend(insert);
+            }
+
+        })
+    })
+    $('#unlist').click(function () {
+        let token = localStorage.getItem('token')
+        $.ajax({
+            url: 'http://localhost:3000/todo/undonelist',
+            method: 'POST',
+            headers: {
+                token
+            }
+        }).done(response => {
+            $('#todos-list').empty()
+            for (let i = 0; i < response.data.length; i++) {
+                let list = response.data[i]
                 let date = String(response.data[i].due_date).substr(0, 10)
                 let status = response.data[i].status
                 let realStatus;
@@ -28,7 +104,7 @@ $(document).ready(function () {
                 border-bottom: 1px solid  #0002;"> <h5 class="filter">${list.name}</h5> 
                 <p>${list.description}</p>
                 <p onclick="upstatus()" style ="cursor: -webkit-grab; cursor: grab;" data-id="${list._id}" data-status ="${list.status}" class="edited" >Edit ${realStatus}</p> 
-                <p><i class="far fa-calendar-alt"></i> ${date}</p>
+                <p class="red"><i class="far fa-calendar-alt"></i> ${date}</p>
                 <i style ="cursor: -webkit-grab; cursor: grab;" data-id="${list._id}" class="fas fa-trash fa-sm" onclick="del()"></i>
                 </div>`
                 $('#todos-list').prepend(insert);
@@ -103,10 +179,6 @@ function signIn() {
     }).done(data => {
         localStorage.setItem('token', data.token)
         let token = data.token
-        $('.form-signin').hide()
-        $('.form-signup').hide()
-        $('#awal').hide()
-        $('#afterin').show()
         $.ajax({
             url: 'http://localhost:3000/todo/getProfile',
             method: 'POST',
@@ -115,6 +187,10 @@ function signIn() {
             }
         }).done(profile => {
             $('#top-right').prepend(`<i class="fas fa-list"></i> ${profile.name}`)
+            $('.form-signin').hide()
+            $('.form-signup').hide()
+            $('#awal').hide()
+            $('#afterin').show()
         })
     }).fail(function (jqXHR, textStatus) {
         console.log('Error:', textStatus);
@@ -139,14 +215,15 @@ function onSignIn(googleUser) {
             }
         }).done(profile => {
             $('#top-right').prepend(`<i class="fas fa-list">${profile.name}</i> iTodo`)
+            $('.form-signin').hide()
+            $('.form-signup').hide()
+            $('#awal').hide()
+            $('#afterin').show()
         })
     }).fail(function (jqXHR, textStatus) {
         console.log('Error:', textStatus);
     });
-    $('.form-signin').hide()
-    $('.form-signup').hide()
-    $('#awal').hide()
-    $('#afterin').show()
+
 
 }
 
@@ -231,7 +308,7 @@ function upstatus() {
     let changeStatus;
     if (status == 'Undone') {
         changeStatus = 'Done'
-    } else if(status == 'Done') {
+    } else if (status == 'Done') {
         changeStatus = 'Undone'
     }
     $.ajax({
@@ -244,9 +321,53 @@ function upstatus() {
                 id,
                 status: changeStatus
             }
-        }).done(response => {
+        }).done(response => {})
+        .fail(function (jqXHR, textStatus) {
+            console.log('Error:', textStatus);
+        });
+}
+
+function backToSignIn() {
+    $('#afterin').hide()
+    $('.form-signin').show()
+    $('.form-signup').hide()
+}
+
+
+function profile() {
+    let token = localStorage.getItem('token')
+    $.ajax({
+            url: 'http://localhost:3000/todo/getProfile',
+            method: 'POST',
+            headers: {
+                token
+            }
+        }).done(profile => {
+            $('#myId').empty()
+            $('.container2').hide()
+            $('#myId').show()
+            let datenow = new Date ()
+            let datestr = String(datenow).substr(0,10)
+            let insert = `<i class="fas fa-user"></i>
+            <h2>Hello, ${profile.name}<h2>
+            <h4>${datestr}<h4>
+            <a href="#" onclick="backTocreate()">Create Todo</p>`
+            $('#myId').prepend(insert)
         })
         .fail(function (jqXHR, textStatus) {
             console.log('Error:', textStatus);
         });
 }
+
+function backTocreate() {
+    $('.container2').show()
+    $('#myId').hide()
+}
+
+
+
+
+
+
+
+

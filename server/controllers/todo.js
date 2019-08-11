@@ -18,9 +18,11 @@ class TodoController {
             UserId: id
         }).then(data2 => {
             res.status(201).json({
-                data2
+                data2,
+                message: 'Todo is successfully created' 
             })
         }).catch(err => {
+            res.status(500)
             next(err)
         })
 
@@ -55,7 +57,10 @@ class TodoController {
                 runValidators: true
             })
             .then(data => {
-                res.status(200).json(data)
+                res.status(200).json({
+                    data,
+                    message: 'Status is successfully updated'
+                })
             }).catch(err => {
                 res.status(500)
                 next(err)
@@ -68,7 +73,8 @@ class TodoController {
         Todo.findByIdAndDelete(id)
             .then(data => {
                 res.status(200).json({
-                    data
+                    data,
+                    message: 'Todo is successfully deleted'
                 })
             }).catch(err => {
                 res.status(500)
@@ -95,7 +101,8 @@ class TodoController {
             })
             .then(data => {
                 res.status(200).json({
-                    data
+                    data,
+                    message: 'found your undone todo list'
                 })
             }).catch(err => {
                 res.status(404)
@@ -113,7 +120,8 @@ class TodoController {
             })
             .then(data => {
                 res.status(200).json({
-                    data
+                    data,
+                    message: 'found your done todo list'
                 })
             }).catch(err => {
                 res.status(404)

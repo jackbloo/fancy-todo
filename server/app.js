@@ -34,7 +34,7 @@ app.use('/todo', routerTodo)
 //ERROR HANDLER
 app.use(function(err,req,res,next){
     res.json({
-        message: err.message,
+        message: err.message || 'internal server error',
         status: res.statuscode || 500
     })
 })

@@ -34,11 +34,13 @@ class UserController {
                     email: user.email
                 }
                 let token = generateToken(dataUser)
-                res.json({
-                    token
+                res.status(200).json({
+                    token,
+                    message: 'Login Success'
                 })
             })
           }).catch(err => {
+            res.status(404)
             next(err)
           })
     }
@@ -57,7 +59,8 @@ class UserController {
                     }
                     const token = generateToken(payload)
                     res.status(200).json({
-                        token: token
+                        token: token,
+                        nessage: 'Login Success'
                     })
                 }else{
                     res.status(404)
@@ -81,7 +84,7 @@ class UserController {
                 iTodo`
                 emailSent(email,'Account Registration',text)
                 res.status(201).json({
-                    message: 'Akun Berhasil Terbuat'
+                    message: 'Account is successfully created'
                 })
             }).catch(err => {
                 next(err)
