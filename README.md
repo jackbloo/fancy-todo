@@ -238,7 +238,10 @@ User can change their todo status whether it is 'Done' or 'Undone'
             },
             message: 'Todo is successfully deleted'
             status: 200
-        }
+        },  error: {
+            message: 'Wrong token'
+            status: 404
+            }
     }
 # POST /todo/donelist
 
