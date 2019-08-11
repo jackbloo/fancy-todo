@@ -6,6 +6,7 @@ require('dotenv').config()
 const User = require('../models/user')
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.CLIENT_ID);
+const emailSent = require('../helpers/emailSent')
 
 class UserController {
     static GsignIn(req,res,next){
@@ -73,6 +74,12 @@ class UserController {
             User.create({
                 name, email, password: encrypt(password)
             }).then(data => {
+                let text = `Dear Mr./Ms./Mrs. ${data.name}, We would like to express our gratitude for your registration,
+                now you can use iTodo Features
+                
+                Best Regards,
+                iTodo`
+                emailSent(email,'Account Registration',text)
                 res.status(201).json({
                     message: 'Akun Berhasil Terbuat'
                 })

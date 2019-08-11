@@ -120,8 +120,6 @@ class TodoController {
                 next(err)
             })
     }
-
-
 }
 
 
