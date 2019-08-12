@@ -59,8 +59,7 @@ class UserController {
                     }
                     const token = generateToken(payload)
                     res.status(200).json({
-                        token: token,
-                        nessage: 'Login Success'
+                        token
                     })
                 }else{
                     res.status(404)
