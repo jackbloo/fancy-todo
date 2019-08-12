@@ -83,7 +83,6 @@ class TodoController {
     }
 
     static getProfile(req, res, next) {
-        console.log(req.decode)
         let {
             name
         } = req.decode

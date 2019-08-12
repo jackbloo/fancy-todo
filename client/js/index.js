@@ -178,12 +178,11 @@ function signIn() {
         }
     }).done(data => {
         localStorage.setItem('token', data.token)
-        let token = data.token
         $.ajax({
             url: 'http://localhost:3000/todo/getProfile',
             method: 'POST',
             headers: {
-                token
+                token: localStorage.token
             }
         }).done(profile => {
             $('#top-right').prepend(`<i class="fas fa-list"></i> ${profile.name}`)
@@ -206,7 +205,10 @@ function onSignIn(googleUser) {
             idToken
         }
     }).done(response => {
-        localStorage.setItem('token', response.token)
+            localStorage.setItem('token', response.token)
+
+            token = localStorage.token
+            console.log(token)
         $.ajax({
             url: 'http://localhost:3000/todo/getProfile',
             method: 'POST',
@@ -214,12 +216,13 @@ function onSignIn(googleUser) {
                 token
             }
         }).done(profile => {
-            $('#top-right').prepend(`<i class="fas fa-list">${profile.name}</i> iTodo`)
+            $('#top-right').prepend(`<i class="fas fa-list">${profile.name}</i>`)
             $('.form-signin').hide()
             $('.form-signup').hide()
             $('#awal').hide()
             $('#afterin').show()
         })
+
     }).fail(function (jqXHR, textStatus) {
         console.log('Error:', textStatus);
     });
