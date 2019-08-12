@@ -104,7 +104,7 @@ $(document).ready(function () {
                 border-bottom: 1px solid  #0002;"> <h5 class="filter">${list.name}</h5> 
                 <p>${list.description}</p>
                 <p onclick="upstatus()" style ="cursor: -webkit-grab; cursor: grab;" data-id="${list._id}" data-status ="${list.status}" class="edited" >Edit ${realStatus}</p> 
-                <p class="red"><i class="far fa-calendar-alt"></i> ${date}</p>
+                <p><i class="far fa-calendar-alt"></i> ${date}</p>
                 <i style ="cursor: -webkit-grab; cursor: grab;" data-id="${list._id}" class="fas fa-trash fa-sm" onclick="del()"></i>
                 </div>`
                 $('#todos-list').prepend(insert);
