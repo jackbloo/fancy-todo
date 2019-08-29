@@ -21,7 +21,7 @@ $(document).ready(function () {
     $('#donelist').click(function () {
         let token = localStorage.getItem('token')
         $.ajax({
-            url: 'http://localhost:3000/todo/donelist',
+            url: 'http://35.198.251.14/todo/donelist',
             method: 'GET',
             headers: {
                 token
@@ -54,7 +54,7 @@ $(document).ready(function () {
     $('#unlist').click(function () {
         let token = localStorage.getItem('token')
         $.ajax({
-            url: 'http://localhost:3000/todo/undonelist',
+            url: 'http://35.198.251.14/todo/undonelist',
             method: 'GET',
             headers: {
                 token
@@ -115,7 +115,7 @@ $(document).ready(function () {
 
     $('#updata').click(function () {
         $.ajax({
-            url: 'http://localhost:3000/user/register',
+            url: 'http://35.198.251.14/user/register',
             method: 'POST',
             data: {
                 name: $('#regName').val(),
@@ -146,7 +146,7 @@ function signIn() {
     })
     Swal.showLoading()
     $.ajax({
-        url: 'http://localhost:3000/user/signin',
+        url: 'http://35.198.251.14/user/signin',
         method: 'POST',
         data: {
             email: $('#inputEmail').val(),
@@ -157,7 +157,7 @@ function signIn() {
         Swal.fire("Success!", "Your are Logged in!", "success");
         localStorage.setItem('token', data.token)
         $.ajax({
-            url: 'http://localhost:3000/todo/getProfile',
+            url: 'http://35.198.251.14/todo/getProfile',
             method: 'GET',
             headers: {
                 token: localStorage.token
@@ -178,7 +178,7 @@ function signIn() {
 function onSignIn(googleUser) {
     let idToken = googleUser.getAuthResponse().id_token;
     $.ajax({
-        url: 'http://localhost:3000/user/Gsignin',
+        url: 'http://35.198.251.14/user/Gsignin',
         method: 'POST',
         data: {
             idToken
@@ -187,7 +187,7 @@ function onSignIn(googleUser) {
         localStorage.setItem('token', response.token)
         token = localStorage.getItem('token')
         $.ajax({
-            url: 'http://localhost:3000/todo/getProfile',
+            url: 'http://35.198.251.14/todo/getProfile',
             method: 'GET',
             headers: {
                 token
@@ -216,6 +216,7 @@ function signOut() {
     })
     Swal.showLoading()
     auth2.signOut().then(function () {
+        Swal.close()
         Swal.fire("Success!", "Your are logged out!", "success");
         console.log('User signed out.');
         $('#out').hide()
@@ -225,6 +226,7 @@ function signOut() {
         $('#afterin').hide()
         localStorage.removeItem('token')
     });
+    Swal.close()
     Swal.fire("Success!", "Your are logged out!", "success");
     $('#out').hide()
     $('#awal').show()
@@ -243,7 +245,7 @@ function create() {
     })
     Swal.showLoading()
     $.ajax({
-            url: 'http://localhost:3000/todo/createTodo',
+            url: 'http://35.198.251.14/todo/createTodo',
             method: 'POST',
             headers: {
                 token
@@ -290,7 +292,7 @@ function del() {
     })
     Swal.showLoading()
     $.ajax({
-            url: 'http://localhost:3000/todo/deleteTodo',
+            url: 'http://35.198.251.14/todo/deleteTodo',
             method: 'DELETE',
             headers: {
                 token
@@ -325,7 +327,7 @@ function upstatus() {
     })
     Swal.showLoading()
     $.ajax({
-            url: 'http://localhost:3000/todo/updateStatusTodo',
+            url: 'http://35.198.251.14/todo/updateStatusTodo',
             method: 'PATCH',
             headers: {
                 token
@@ -354,7 +356,7 @@ function backToSignIn() {
 function profile() {
     let token = localStorage.getItem('token')
     $.ajax({
-            url: 'http://localhost:3000/todo/getProfile',
+            url: 'http://35.198.251.14/todo/getProfile',
             method: 'GET',
             headers: {
                 token
@@ -384,7 +386,7 @@ function backTocreate() {
 function getTodo() {
     let token = localStorage.getItem('token')
     $.ajax({
-        url: 'http://localhost:3000/todo/findTodo',
+        url: 'http://35.198.251.14/todo/findTodo',
         method: 'GET',
         headers: {
             token
