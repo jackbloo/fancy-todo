@@ -1,57 +1,28 @@
 $(document).ready(function () {
-    $('#afterin').hide()
-    $('.form-signin').hide()
-    $('.form-signup').hide()
+    if (localStorage.getItem('token')) {
+        $('.form-signin').hide()
+        $('.form-signup').hide()
+        $('#afterin').show()
+        $('#awal').hide()
+        getTodo()
+    } else {
+        $('#afterin').hide()
+        $('.form-signin').hide()
+        $('.form-signup').hide()
+        $('#awal').show()
+
+    }
 
 
     $('#mylist').click(function () {
-        let token = localStorage.getItem('token')
-        $.ajax({
-            url: 'http://localhost:3000/todo/findTodo',
-            method: 'POST',
-            headers: {
-                token
-            }
-        }).done(response => {
-            $('#todos-list').empty()
-            for (let i = 0; i < response.data.length; i++) {
-                let list = response.data[i]
-                let targetDate = new Date(response.data[i].due_date)
-                let date = String(response.data[i].due_date).substr(0, 10)
-                let status = response.data[i].status
-                let today = new Date()
-                let realStatus;
-                if (status == 'Undone') {
-                    realStatus = '<i class="fas fa-times"></i>'
-                } else {
-                    realStatus = '<i class="fas fa-check"></i>'
-                }
-
-                let checkDate;
-                if (targetDate < today) {
-                    checkDate = `<p class="red"><i class="far fa-calendar-alt"></i> ${date}</p>`
-                } else if (targetDate >= today) {
-                    checkDate = `<p><i class="far fa-calendar-alt"></i> ${date}</p>`
-                }
-
-                let insert = `<div class ="kotak"  style="  border-top: 1px solid #0002;
-                border-bottom: 1px solid  #0002;"> <h5 class="filter">${list.name}</h5> 
-                <p>${list.description}</p>
-                <p onclick="upstatus()" style ="cursor: -webkit-grab; cursor: grab;" data-id="${list._id}" data-status ="${list.status}" class="edited" >Edit ${realStatus}</p> 
-                ${checkDate}
-                <i style ="cursor: -webkit-grab; cursor: grab;" data-id="${list._id}" class="fas fa-trash fa-sm" onclick="del()"></i>
-                </div>`
-                $('#todos-list').prepend(insert);
-            }
-
-        })
+        getTodo()
     })
 
     $('#donelist').click(function () {
         let token = localStorage.getItem('token')
         $.ajax({
             url: 'http://localhost:3000/todo/donelist',
-            method: 'POST',
+            method: 'GET',
             headers: {
                 token
             }
@@ -84,7 +55,7 @@ $(document).ready(function () {
         let token = localStorage.getItem('token')
         $.ajax({
             url: 'http://localhost:3000/todo/undonelist',
-            method: 'POST',
+            method: 'GET',
             headers: {
                 token
             }
@@ -169,6 +140,11 @@ $(document).ready(function () {
 });
 
 function signIn() {
+    Swal.fire({
+        title: 'Loggin in...',
+        allowOutsideClick: () => !Swal.isLoading()
+    })
+    Swal.showLoading()
     $.ajax({
         url: 'http://localhost:3000/user/signin',
         method: 'POST',
@@ -177,10 +153,12 @@ function signIn() {
             password: $('#inputPassword').val()
         }
     }).done(data => {
+        Swal.close()
+        Swal.fire("Success!", "Your are Logged in!", "success");
         localStorage.setItem('token', data.token)
         $.ajax({
             url: 'http://localhost:3000/todo/getProfile',
-            method: 'POST',
+            method: 'GET',
             headers: {
                 token: localStorage.token
             }
@@ -190,9 +168,10 @@ function signIn() {
             $('.form-signup').hide()
             $('#awal').hide()
             $('#afterin').show()
+            getTodo()
         })
     }).fail(function (jqXHR, textStatus) {
-        console.log('Error:', textStatus);
+        Swal.fire("Error!", textStatus, "error");
     });
 }
 
@@ -205,13 +184,11 @@ function onSignIn(googleUser) {
             idToken
         }
     }).done(response => {
-            localStorage.setItem('token', response.token)
-
-            token = localStorage.token
-            console.log(token)
+        localStorage.setItem('token', response.token)
+        token = localStorage.getItem('token')
         $.ajax({
             url: 'http://localhost:3000/todo/getProfile',
-            method: 'POST',
+            method: 'GET',
             headers: {
                 token
             }
@@ -221,10 +198,11 @@ function onSignIn(googleUser) {
             $('.form-signup').hide()
             $('#awal').hide()
             $('#afterin').show()
+            getTodo()
         })
 
     }).fail(function (jqXHR, textStatus) {
-        console.log('Error:', textStatus);
+        Swal.fire("Error!", textStatus, "error");
     });
 
 
@@ -232,7 +210,13 @@ function onSignIn(googleUser) {
 
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
+    Swal.fire({
+        title: 'logging out...',
+        allowOutsideClick: () => !Swal.isLoading()
+    })
+    Swal.showLoading()
     auth2.signOut().then(function () {
+        Swal.fire("Success!", "Your are logged out!", "success");
         console.log('User signed out.');
         $('#out').hide()
         $('#awal').show()
@@ -241,11 +225,23 @@ function signOut() {
         $('#afterin').hide()
         localStorage.removeItem('token')
     });
+    Swal.fire("Success!", "Your are logged out!", "success");
+    $('#out').hide()
+    $('#awal').show()
+    $('.form-signin').hide()
+    $('.form-signup').hide()
+    $('#afterin').hide()
+    localStorage.removeItem('token')
 }
 
 function create() {
     event.preventDefault();
     let token = localStorage.getItem('token')
+    Swal.fire({
+        title: 'Creating your todo...',
+        allowOutsideClick: () => !Swal.isLoading()
+    })
+    Swal.showLoading()
     $.ajax({
             url: 'http://localhost:3000/todo/createTodo',
             method: 'POST',
@@ -259,6 +255,8 @@ function create() {
             },
         })
         .done(function (newList) {
+            Swal.close()
+            Swal.fire("Success!", "Your Todo is Created!", "success");
             let list = newList.data2
             let date = String(newList.data2.due_date).substr(0, 10)
             let status = newList.data2.status
@@ -278,7 +276,7 @@ function create() {
             $('#todos-list').prepend(insert);
         })
         .fail(function (jqXHR, textStatus) {
-            console.log('Error:', textStatus);
+            Swal.fire("Error!", textStatus, "error");;
         });
 }
 
@@ -286,9 +284,14 @@ function del() {
     $('.fas.fa-trash.fa-sm').attr('id', 'del')
     let id = $('.fas.fa-trash.fa-sm').attr('data-id')
     let token = localStorage.getItem('token')
+    Swal.fire({
+        title: 'Deleting your Todo...',
+        allowOutsideClick: () => !Swal.isLoading()
+    })
+    Swal.showLoading()
     $.ajax({
             url: 'http://localhost:3000/todo/deleteTodo',
-            method: 'POST',
+            method: 'DELETE',
             headers: {
                 token
             },
@@ -296,10 +299,12 @@ function del() {
                 id
             }
         }).done(response => {
-
+            Swal.close()
+            Swal.fire("Success!", "Your Todo is Deleted!", "success");
+            getTodo()
         })
         .fail(function (jqXHR, textStatus) {
-            console.log('Error:', textStatus);
+            Swal.fire("Error!", textStatus, "error");
         });
 }
 
@@ -314,9 +319,14 @@ function upstatus() {
     } else if (status == 'Done') {
         changeStatus = 'Undone'
     }
+    Swal.fire({
+        title: 'Updating your todo...',
+        allowOutsideClick: () => !Swal.isLoading()
+    })
+    Swal.showLoading()
     $.ajax({
             url: 'http://localhost:3000/todo/updateStatusTodo',
-            method: 'POST',
+            method: 'PATCH',
             headers: {
                 token
             },
@@ -324,9 +334,13 @@ function upstatus() {
                 id,
                 status: changeStatus
             }
-        }).done(response => {})
+        }).done(response => {
+            Swal.close()
+            Swal.fire("Success!","Your Account is Updated!", "success");
+            getTodo()
+        })
         .fail(function (jqXHR, textStatus) {
-            console.log('Error:', textStatus);
+            Swal.fire("Error!", textStatus, "error");
         });
 }
 
@@ -341,7 +355,7 @@ function profile() {
     let token = localStorage.getItem('token')
     $.ajax({
             url: 'http://localhost:3000/todo/getProfile',
-            method: 'POST',
+            method: 'GET',
             headers: {
                 token
             }
@@ -349,8 +363,8 @@ function profile() {
             $('#myId').empty()
             $('.container2').hide()
             $('#myId').show()
-            let datenow = new Date ()
-            let datestr = String(datenow).substr(0,10)
+            let datenow = new Date()
+            let datestr = String(datenow).substr(0, 10)
             let insert = `<i class="fas fa-user"></i>
             <h2>Hello, ${profile.name}<h2>
             <h4>${datestr}<h4>
@@ -367,10 +381,45 @@ function backTocreate() {
     $('#myId').hide()
 }
 
+function getTodo() {
+    let token = localStorage.getItem('token')
+    $.ajax({
+        url: 'http://localhost:3000/todo/findTodo',
+        method: 'GET',
+        headers: {
+            token
+        }
+    }).done(response => {
+        $('#todos-list').empty()
+        for (let i = 0; i < response.data.length; i++) {
+            let list = response.data[i]
+            let targetDate = new Date(response.data[i].due_date)
+            let date = String(response.data[i].due_date).substr(0, 10)
+            let status = response.data[i].status
+            let today = new Date()
+            let realStatus;
+            if (status == 'Undone') {
+                realStatus = '<i class="fas fa-times"></i>'
+            } else {
+                realStatus = '<i class="fas fa-check"></i>'
+            }
 
+            let checkDate;
+            if (targetDate < today) {
+                checkDate = `<p class="red"><i class="far fa-calendar-alt"></i> ${date}</p>`
+            } else if (targetDate >= today) {
+                checkDate = `<p><i class="far fa-calendar-alt"></i> ${date}</p>`
+            }
 
+            let insert = `<div class ="kotak"  style="  border-top: 1px solid #0002;
+            border-bottom: 1px solid  #0002;"> <h5 class="filter">${list.name}</h5> 
+            <p>${list.description}</p>
+            <p onclick="upstatus()" style ="cursor: -webkit-grab; cursor: grab;" data-id="${list._id}" data-status ="${list.status}" class="edited" >Edit ${realStatus}</p> 
+            ${checkDate}
+            <i style ="cursor: -webkit-grab; cursor: grab;" data-id="${list._id}" class="fas fa-trash fa-sm" onclick="del()"></i>
+            </div>`
+            $('#todos-list').prepend(insert);
+        }
 
-
-
-
-
+    })
+}

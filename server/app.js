@@ -10,7 +10,7 @@ const routerTodo = require('./routes/todo')
 const cors = require('cors')
 const routerUser = require('./routes/user')
 const authentication = require('./middleware/authentication')
-
+const errorHandler = require('./helpers/errorhandler')
 
 app.use(morgan('dev'))
 app.use(express.json())
@@ -33,10 +33,7 @@ app.use('/todo', routerTodo)
 
 //ERROR HANDLER
 app.use(function(err,req,res,next){
-    res.json({
-        message: err.message || 'internal server error',
-        status: res.statuscode || 500
-    })
+    errorHandler(err)
 })
   
 

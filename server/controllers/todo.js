@@ -11,20 +11,26 @@ class TodoController {
             description,
             due_date
         } = req.body
-        Todo.create({
-            name,
-            description,
-            due_date,
-            UserId: id
-        }).then(data2 => {
-            res.status(201).json({
-                data2,
-                message: 'Todo is successfully created' 
+        if (new Date(due_date) < new Date()) {
+            res.status(400).json({
+                message: 'Date cannot be in the past'
             })
-        }).catch(err => {
-            res.status(500)
-            next(err)
-        })
+        } else {
+            Todo.create({
+                name,
+                description,
+                due_date,
+                UserId: id
+            }).then(data2 => {
+                res.status(201).json({
+                    data2,
+                    message: 'Todo is successfully created'
+                })
+            }).catch(err => {
+                next(err)
+            })
+        }
+
 
     }
     static find(req, res, next) {

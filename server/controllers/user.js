@@ -1,7 +1,6 @@
 const {encrypt} = require('../helpers/hash')
 const {decrypt} = require('../helpers/hash')
 const {generateToken} = require('../helpers/token')
-const axios = require('axios')
 require('dotenv').config()
 const User = require('../models/user')
 const {OAuth2Client} = require('google-auth-library');
@@ -62,8 +61,10 @@ class UserController {
                         token
                     })
                 }else{
-                    res.status(404)
-                    nex(err)
+                    next({
+                        message : "email/password salah",
+                        statusCode : 400
+                    })
                 }
             } else{
                 res.status(404)

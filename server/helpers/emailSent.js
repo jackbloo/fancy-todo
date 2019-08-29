@@ -8,10 +8,10 @@ function email(emailUser, subject, text, html) {
 
     let testAccount = await nodemailer.createTestAccount();
     let transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
       auth: {
-        user: process.env.USER,
-        pass: process.env.PASSWORD
+        username: process.env.USER,
+        password: process.env.PASSWORD
       }
     });
 
