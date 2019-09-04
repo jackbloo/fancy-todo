@@ -42,7 +42,7 @@ $(document).ready(function () {
     $('#donelist').click(function () {
         let token = localStorage.getItem('token')
         $.ajax({
-            url: 'http://localhost:3000/todo/donelist',
+            url: 'http://35.198.251.14/todo/donelist',
             method: 'GET',
             headers: {
                 token
@@ -75,7 +75,7 @@ $(document).ready(function () {
     $('#unlist').click(function () {
         let token = localStorage.getItem('token')
         $.ajax({
-            url: 'http://localhost:3000/todo/undonelist',
+            url: 'http://35.198.251.14/todo/undonelist',
             method: 'GET',
             headers: {
                 token
@@ -130,7 +130,7 @@ $(document).ready(function () {
         })
         Swal.showLoading()
         $.ajax({
-            url: 'http://localhost:3000/user/register',
+            url: 'http://35.198.251.14/user/register',
             method: 'POST',
             data: {
                 name: $('#regName').val(),
@@ -170,7 +170,7 @@ function signIn() {
     })
     Swal.showLoading()
     $.ajax({
-        url: 'http://localhost:3000/user/signin',
+        url: 'http://35.198.251.14/user/signin',
         method: 'POST',
         data: {
             email: $('#inputEmail').val(),
@@ -190,7 +190,7 @@ function signIn() {
 function onSignIn(googleUser) {
     let idToken = googleUser.getAuthResponse().id_token;
     $.ajax({
-        url: 'http://localhost:3000/user/Gsignin',
+        url: 'http://35.198.251.14/user/Gsignin',
         method: 'POST',
         data: {
             idToken
@@ -199,7 +199,7 @@ function onSignIn(googleUser) {
         localStorage.setItem('token', response.token)
         token = localStorage.getItem('token')
         $.ajax({
-            url: 'http://localhost:3000/todo/getProfile',
+            url: 'http://35.198.251.14/todo/getProfile',
             method: 'GET',
             headers: {
                 token
@@ -257,7 +257,7 @@ function create() {
     })
     Swal.showLoading()
     $.ajax({
-            url: 'http://localhost:3000/todo/createTodo',
+            url: 'http://35.198.251.14/todo/createTodo',
             method: 'POST',
             headers: {
                 token
@@ -314,7 +314,7 @@ function del(id) {
             })
             Swal.showLoading()
             $.ajax({
-                    url: 'http://localhost:3000/todo/deleteTodo',
+                    url: 'http://35.198.251.14/todo/deleteTodo',
                     method: 'DELETE',
                     headers: {
                         token
@@ -351,7 +351,7 @@ function upstatus(id) {
     })
     Swal.showLoading()
     $.ajax({
-            url: 'http://localhost:3000/todo/updateStatusTodo',
+            url: 'http://35.198.251.14/todo/updateStatusTodo',
             method: 'PATCH',
             headers: {
                 token
@@ -380,7 +380,7 @@ function backToSignIn() {
 function profile() {
     let token = localStorage.getItem('token')
     $.ajax({
-            url: 'http://localhost:3000/todo/getProfile',
+            url: 'http://35.198.251.14/todo/getProfile',
             method: 'GET',
             headers: {
                 token
@@ -410,7 +410,7 @@ function backTocreate() {
 function getTodo() {
     let token = localStorage.getItem('token')
     $.ajax({
-        url: 'http://localhost:3000/todo/findTodo',
+        url: 'http://35.198.251.14/todo/findTodo',
         method: 'GET',
         headers: {
             token
@@ -484,7 +484,7 @@ aria-hidden="true">
 function getProjects() {
     let token = localStorage.getItem('token')
     $.ajax({
-        url: 'http://localhost:3000/project/',
+        url: 'http://35.198.251.14/project/',
         method: 'GET',
         headers: {
             token
@@ -513,7 +513,7 @@ function getProjects() {
 function getAllUsers() {
     let token = localStorage.getItem('token')
     $.ajax({
-        url: 'http://localhost:3000/project/allUsers',
+        url: 'http://35.198.251.14/project/allUsers',
         method: 'GET',
         headers: {
             token
@@ -536,7 +536,7 @@ function createProject() {
     })
     Swal.showLoading()
     $.ajax({
-        url: 'http://localhost:3000/project',
+        url: 'http://35.198.251.14/project',
         method: 'POST',
         headers: {
             token
@@ -572,7 +572,7 @@ function deleteProject(id) {
             })
             Swal.showLoading()
             $.ajax({
-                url: `http://localhost:3000/project/${id}`,
+                url: `http://35.198.251.14/project/${id}`,
                 method: 'DELETE',
                 headers: {
                     token
@@ -597,7 +597,7 @@ function addMember(id) {
     })
     Swal.showLoading()
     $.ajax({
-        url: `http://localhost:3000/project/members/${id}`,
+        url: `http://35.198.251.14/project/members/${id}`,
         method: 'PATCH',
         headers: {
             token
@@ -617,7 +617,7 @@ function addMember(id) {
 function pageAwal() {
     let token = localStorage.getItem('token')
     $.ajax({
-        url: 'http://localhost:3000/todo/getProfile',
+        url: 'http://35.198.251.14/todo/getProfile',
         method: 'GET',
         headers: {
             token
@@ -653,7 +653,7 @@ function dateValidation() {
 function getTodos(id) {
     let token = localStorage.getItem('token')
     $.ajax({
-        url: `http://localhost:3000/project/allTodos/${id}`,
+        url: `http://35.198.251.14/project/allTodos/${id}`,
         method: 'GET',
         headers: {
             token
@@ -713,7 +713,7 @@ function upstatusP(id) {
     })
     Swal.showLoading()
     $.ajax({
-            url: 'http://localhost:3000/todo/updateProjectStatus',
+            url: 'http://35.198.251.14/todo/updateProjectStatus',
             method: 'PATCH',
             headers: {
                 token
@@ -750,7 +750,7 @@ function delP(id) {
             })
             Swal.showLoading()
             $.ajax({
-                    url: 'http://localhost:3000/todo/deleteProjectTodo',
+                    url: 'http://35.198.251.14/todo/deleteProjectTodo',
                     method: 'DELETE',
                     headers: {
                         token
