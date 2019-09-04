@@ -1,5 +1,6 @@
 require('dotenv').config()
 const Todo = require('../models/todos')
+const project = require('../models/project')
 
 class TodoController {
     static createTodo(req, res, next) {
@@ -9,29 +10,45 @@ class TodoController {
         const {
             name,
             description,
-            due_date
+            due_date,
+            projectId
         } = req.body
         if (new Date(due_date) < new Date()) {
-            res.status(400).json({
+            next({
+                httpStatus: 400,
                 message: 'Date cannot be in the past'
             })
         } else {
-            Todo.create({
-                name,
-                description,
-                due_date,
-                UserId: id
-            }).then(data2 => {
-                res.status(201).json({
-                    data2,
-                    message: 'Todo is successfully created'
+            if (projectId == '0') {
+                return Todo.create({
+                    name,
+                    description,
+                    due_date,
+                    UserId: id
+                }).then(data3 => {
+                    res.status(201).json({data3})
                 })
-            }).catch(err => {
-                next(err)
-            })
+            } else {
+                return Todo.create({
+                    name,
+                    description,
+                    due_date,
+                    projectId
+                }).then(data2 => {
+                    let todoId = data2._id
+                    return project.findByIdAndUpdate(projectId, {
+                        $push: {
+                            todo: todoId
+                        }
+                    }, {
+                        new: true,
+                        runValidators: true
+                    }).then(data => {
+                        res.status(201).json(data)
+                    })
+                }).catch(next)
+            }
         }
-
-
     }
     static find(req, res, next) {
         const {
@@ -72,7 +89,48 @@ class TodoController {
                 next(err)
             })
     }
+
+    static pUpdate(req, res, next) {
+        let {
+            id
+        } = req.body
+        let updatedData = {}
+        req.body.name && (updatedData.name = req.body.name)
+        req.body.description && (updatedData.description = req.body.description)
+        req.body.status && (updatedData.status = req.body.status)
+        req.body.due_date && (updatedData.due_date = req.body.due_date)
+        Todo.findByIdAndUpdate(id, updatedData, {
+                new: true,
+                runValidators: true
+            })
+            .then(data => {
+                res.status(200).json({
+                    data,
+                    message: 'Status is successfully updated'
+                })
+            }).catch(err => {
+                res.status(500)
+                next(err)
+            })
+    } 
+
     static delete(req, res, next) {
+        let {
+            id
+        } = req.body
+        Todo.findByIdAndDelete(id)
+            .then(data => {
+                res.status(200).json({
+                    data,
+                    message: 'Todo is successfully deleted'
+                })
+            }).catch(err => {
+                res.status(500)
+                next(err)
+            })
+    }
+
+    static pDelete(req, res, next) {
         let {
             id
         } = req.body

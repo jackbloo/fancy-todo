@@ -1,40 +1,32 @@
-if(process.env.NODE_ENV === 'development'){
-    require('dotenv').config()
+if(!process.env.NODE_ENV || process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'){
+    require('dotenv').config();
 }
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
 const port = process.env.PORT || 3000
 const mongoose = require('mongoose')
-const routerTodo = require('./routes/todo')
+const router = require('./routes/index')
 const cors = require('cors')
-const routerUser = require('./routes/user')
-const authentication = require('./middleware/authentication')
 const errorHandler = require('./helpers/errorhandler')
-
+app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
-mongoose.connect('mongodb://localhost/FancyTodo',{useNewUrlParser: true}).then(success => {
+mongoose.connect(process.env.LINK,{useNewUrlParser: true}).then(success => {
     console.log('Connection success')
 }).catch(err => {
     console.log(err.message)
 })
 
-app.use(cors())
 
-
-app.use('/user', routerUser)
-app.use(authentication)
-app.use('/todo', routerTodo)
+app.use('/', router)
 
 
 
 
 //ERROR HANDLER
-app.use(function(err,req,res,next){
-    errorHandler(err)
-})
+app.use(errorHandler)
   
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
