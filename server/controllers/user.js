@@ -67,10 +67,9 @@ class UserController {
                     })
                 }
             } else{
-                res.status(404)
-                nex(err)
+                next({httpStatus: 404,message:'Not Found'})
             }
-        })
+        }).catch(next)
     }
     static register(req,res,next){
             const {name, email, password} = req.body
