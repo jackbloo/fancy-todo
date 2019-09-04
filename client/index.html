@@ -12,7 +12,7 @@
     content="281543541051-n7100qrphbe53c4or5upl3oud8jomqvo.apps.googleusercontent.com">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
   <link rel="stylesheet" href="css/index.css">
 </head>
 
@@ -35,7 +35,7 @@
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
     <div class="checkbox mb-3">
-      <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="signIn()">Sign In</button>
+      <button id="signMe" class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
       <div class="g-signin2" data-onsuccess="onSignIn"></div>
       <p>Doesn't have an account?</p>
       <button class="btn btn-sm btn-secondary" type="submit" id="signup">Sign Up</button>
@@ -53,14 +53,14 @@
     <div class="checkbox mb-3">
       <button class="btn btn-lg btn-primary btn-block" type="submit" id="updata">Sign Up</button>
       <p>Back to Sign In</p>
-      <button class="btn btn-sm btn-secondary" type="submit" id="backIn" onclick="backToSignIn()">Sign In</button>
+      <button class="btn btn-sm btn-secondary" type="submit" id="backIn">Sign In</button>
     </div>
   </form>
 
   <div id="afterin">
     <div class="topnav">
-      <a href="#" id="top-right" onclick="profile()"></a>
-      <a id="signout" href="#" onclick="signOut();"><i class="fas fa-sign-out-alt"></i></a>
+      <a href="#" id="top-right"></a>
+      <a id="signout" href="#"><i class="fas fa-sign-out-alt"></i></a>
       <h3 id="left-nav"><i class="fas fa-list"></i> iTodo</h3>
     </div>
 
@@ -78,10 +78,44 @@
             <div>
               <li id="unlist" class="box" style="cursor: -webkit-grab; cursor: grab;"> Undone List </li>
             </div>
-
+            <div class="judPro">
+                <h2 id="lists">Project</h2>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1">
+                    create
+                   </button> 
+            </div>
+            <div id="projectss">
+            </div>
         </div>
       </div>
 
+      <div id="modalHere">
+
+      </div>
+
+
+  <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="">
+              <label for="regname" class="sr-only">Name</label>
+              <input type="text" id="projName" class="form-control" placeholder="Name" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="createPro">Create</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
       <div class="column mid">
         <div class="container1">
           <div class="input-group mb-3">
@@ -98,7 +132,7 @@
       </div>
 
       <div class="column right">
-        <div class="container2">
+        <div class="container2" id="containerku">
           <h2>Create Todo</h2>
           <form class="form-createTodo">
             <label for="regname" class="sr-only">Name</label>
@@ -107,8 +141,11 @@
             <input type="text" id="regdescription" class="form-control" placeholder="Description">
             <label for="myDate" class="sr-only">Date</label>
             <input type="date" id="myDate" class="form-control">
+            <select class="form-control" name="userProjects" id="userProjects">
+              <option value="0">no Project</option>
+            </select>
             <div class="checkbox mb-3">
-              <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="create()">Create</button>
+              <button id="todoCreate" class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
             </div>
           </form>
         </div>
@@ -117,20 +154,16 @@
       </div>
     </div>
   </div>
-
-
-
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
-    <script src="js/index.js"></script>
-
+  <script type="text/javascript" language="javascript" src="./js/index.js"></script>
 </body>
 
 </html>

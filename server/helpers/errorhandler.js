@@ -22,9 +22,9 @@ function errorHandler(err, req, res, next) {
         httpStatus = 400
         message = err.message
     } else {
-        res.status(httpStatus || 406).json({
+        res.status(httpStatus || 500).json({
 
-            code: httpStatus || 406,
+            code: httpStatus || 500,
             message,
             data: previousError,
             error: stack

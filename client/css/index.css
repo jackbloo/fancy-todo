@@ -70,12 +70,22 @@ h3 {
   margin: 0px;
 }
 
+.box11 {
+  width: 200px;
+  border: 1px solid #0002;
+  padding: 10px;
+  margin: 0px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
 
 
 a,
 a:focus,
 a:hover {
-  color: #fff;
+  color: black;
 }
 
 .btn-secondary,
@@ -87,12 +97,13 @@ a:hover {
   border: .05rem solid #fff;
 }
 
-
 html,
 body {
   height: 100%;
-  background-image: linear-gradient(180.3deg, rgba(221, 221, 221, 1) 5.5%, rgba(110, 136, 161, 1) 90.2%);
-  ;
+  background-color: whitesmoke;
+  /* background-image: linear-gradient(180.3deg, rgba(221, 221, 221, 1) 5.5%, rgba(110, 136, 161, 1) 90.2%);
+  background-size: contain;
+  background-repeat: no-repeat; */
 }
 
 
@@ -212,4 +223,18 @@ main {
   margin-bottom: -1px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.judPro {
+  margin-bottom: 15px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

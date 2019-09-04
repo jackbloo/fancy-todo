@@ -15,13 +15,16 @@ const todoSchema = new Schema({
     UserId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users'
+    },
+    projectId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'projects'
     }
 },
 {
     timestamps: true,
     versionKey: false
 })
-
 const todos = mongoose.model('todos', todoSchema)
 
 module.exports = todos;
